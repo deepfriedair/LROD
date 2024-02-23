@@ -1,0 +1,14 @@
+name: LROD
+version: "1.0-SNAPSHOT"
+author: Brayden Bower
+main: com.braydenbower.Main
+
+commands:
+   lrod: 
+      usage: /<command> <playerName>
+      description: This will give you or someone a Lightning Rod!
+
+permissions:
+   lrod.get: 
+      description: You need this permission. 
+      default: op
