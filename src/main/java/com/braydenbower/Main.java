@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,9 +24,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin implements Listener {
 
    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-      if (!(sender instanceof Player)) {
-          sender.sendMessage(ChatColor.RED + "[LROD] Only players can use this!");
-          return false;
+
+    if (sender instanceof ConsoleCommandSender) {
+        if (args.length == 1) {
+            String targetPlayerName = args[0];
+            Player targetPlayer = Bukkit.getPlayer(targetPlayerName);
+
+            if(targetPlayer != null) {
+                giveLightningRod(targetPlayer);
+                sender.sendMessage(ChatColor.AQUA + "[LROD] " + ChatColor.GREEN + "Gave Lightning Rod to " + targetPlayerName + "!");
+            } else {
+                  sender.sendMessage(ChatColor.AQUA + "[LROD] " + ChatColor.RED + "Player " + targetPlayerName + " not found or not online.");
+            }
+        } else {
+            sender.sendMessage(ChatColor.AQUA + "[LROD] " + ChatColor.RED + "Usage: /lrod <playerName>");
+        }
+          return true;
       }
   
       Player p = (Player) sender;
@@ -45,7 +59,6 @@ public class Main extends JavaPlugin implements Listener {
           } else {
               // /lrod without arguments, give Rod to the command sender
               giveLightningRod(p);
-              p.sendMessage(ChatColor.AQUA + "[LROD] " + ChatColor.GREEN + "You've got a Lightning Rod!");
           }
           return true;
       }
@@ -67,6 +80,7 @@ public class Main extends JavaPlugin implements Listener {
          myItem.setItemMeta(im);
    
          inventory.addItem(myItem);
+         player.sendMessage(ChatColor.AQUA + "[LROD] " + ChatColor.GREEN + "You've got a Lightning Rod!");
       } else {
          player.sendMessage(ChatColor.RED + "You don't have permission to get a lightning Rod!");
       }
