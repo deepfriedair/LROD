@@ -1,5 +1,5 @@
 name: LROD
-version: "1.0.2-SNAPSHOT"
+version: "1.1-SNAPSHOT"
 author: Brayden Bower
 main: com.braydenbower.Main
 
@@ -11,4 +11,7 @@ commands:
 permissions:
    lrod.get: 
       description: You need this permission. 
+      default: op
+   lrod.setlightnings:
+      description: Set the number of lightnings you throw
       default: op
