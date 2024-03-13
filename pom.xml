@@ -4,7 +4,7 @@
 
     <artifactId>LROD</artifactId>
     <groupId>com.braydenbower</groupId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1.1-SNAPSHOT</version>
     
     <!-- Repositories -->
     <repositories>

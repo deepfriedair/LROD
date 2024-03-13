@@ -76,18 +76,38 @@ public class Main extends JavaPlugin implements Listener {
                 // /lrod without arguments, give Rod to the command sender
                 giveLightningRod(p);
                 p.sendMessage(ChatColor.AQUA + "[LROD] " + ChatColor.GREEN + "You've got a Lightning Rod!");
-            } else if (args.length == 2 && args[0].equalsIgnoreCase("setlightnings")) {
+            } else if (args.length == 1 && !args[0].equalsIgnoreCase("setlightnings")) {
+                String targetPlayerName = args[0];
+                Player targetPlayer = Bukkit.getPlayer(targetPlayerName);
+
+                if (targetPlayer != null) {
+                    sendLightningRod(p, targetPlayer);
+                    sender.sendMessage(ChatColor.AQUA + "[LROD] " + ChatColor.GREEN + "Gave Lightning Rod to " + targetPlayerName + "!");
+                } else {
+                    sender.sendMessage(ChatColor.AQUA + "[LROD] " + ChatColor.RED + "Player " + targetPlayerName + " not found or not online.");
+                }
+
+            }else if (args.length == 2 && args[0].equalsIgnoreCase("setlightnings")) {
                 if (p.hasPermission("lrod.setlightnings")) {
                     setLightningsCommand(p, args);
                 } else {
                     p.sendMessage(ChatColor.RED + "You don't have permission to set the number of lightnings!");
                 }
             } else {
-                p.sendMessage(ChatColor.AQUA + "[LROD] " + ChatColor.RED + "Usage: /lrod OR /lrod setlightnings <number>");
+                p.sendMessage(ChatColor.AQUA + "[LROD] " + ChatColor.RED + "Usage: /lrod OR /lrod <playerName> OR /lrod setlightnings <number>");
             }
             return true;
         }
         return false;
+    }
+
+    private void sendLightningRod(Player player1, Player player2) {
+        if (player1.hasPermission("lrod.get")) {
+            ItemStack lightningRod = createLightningRodItem();
+            player2.getInventory().addItem(lightningRod);
+        } else {
+            player1.sendMessage(ChatColor.RED + "You don't have permission to send a lightning Rod!");
+        }
     }
 
     private void giveLightningRod(Player player) {
